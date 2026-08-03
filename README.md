@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Arrow DEX
 
 A cross-chain exchange, verifiably real. Marketing site + documentation, built with Next.js 14 (App Router), TypeScript, and Tailwind CSS.
@@ -35,3 +36,7 @@ src/
 "The Ledger" — a precision-instrument aesthetic, not a casino. Near-black base (`#0A0B0D`), bone-white text, aged-brass accent reserved for verified/live markers, deep verdant for chain data. Fraunces for display type, Inter for body, JetBrains Mono for anything factual (chain IDs, fees, contract names).
 
 The signature element is the **Stamp** component — a `live` / `roadmap` badge that runs through every page, making "what's actually deployed" a first-class part of the visual system rather than a footnote.
+=======
+# arrowdex.docs
+Official documentation for the ArrowDEX project.
+>>>>>>> cf481b7e4d2977fc073a9af91f53bed4dd6b53d6
