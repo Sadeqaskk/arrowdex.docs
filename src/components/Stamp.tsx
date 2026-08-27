@@ -12,7 +12,7 @@ export default function Stamp({
       <span
         className={`inline-flex items-center gap-[7px] rounded-full border border-verdant-bright/40 bg-verdant/10 px-[10px] py-[5px] font-mono text-[10.5px] uppercase tracking-widest text-verdant-bright ${className}`}
       >
-        <span className="block h-1.5 w-1.5 rounded-full bg-verdant-bright shadow-[0_0_6px_#7C9CFF]" />
+        <span className="block h-1.5 w-1.5 rounded-full bg-verdant-bright shadow-[0_0_6px_#7C9CFF] animate-pulseGlow" />
         {children}
       </span>
     );

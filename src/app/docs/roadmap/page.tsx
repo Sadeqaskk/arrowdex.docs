@@ -22,13 +22,13 @@ const ITEMS = [
   },
   {
     id: "pools",
-    title: "More Pools, More Pairs",
-    body: "cirBTC support, additional stable pairs, and routing across multiple pools so a swap can hop through liquidity instead of needing one direct pair.",
+    title: "More Pairs",
+    body: "cirBTC support and additional stable pairs. Any pool deployed through ArrowFactory is routable through ArrowRouter immediately — this is about expanding which assets have a pool at all.",
   },
   {
     id: "audit",
     title: "Independent Security Audit",
-    body: "Every contract — pool, vault, swap — reviewed by an outside firm before any real-value deployment is ever considered.",
+    body: "Every contract — router, factory, pool, vault, swap — reviewed by an outside firm before any real-value deployment is ever considered.",
   },
   {
     id: "governance",
@@ -48,7 +48,7 @@ export default function RoadmapPage() {
           Everything below is roadmap — not built yet, marked clearly as
           vision, not fact. Nothing here should be read as a live feature.
           When something ships, it moves to the documentation pages with a
-          Live stamp, exactly like everything else on this site.
+          Live stamp, exactly like ArrowRouter and ArrowFactory did.
         </p>
 
         <div className="mt-14">
@@ -77,9 +77,10 @@ export default function RoadmapPage() {
             In the meantime, everything above is real
           </h3>
           <p className="mb-5 max-w-[480px] text-[14.5px] text-bone-dim">
-            Bridging, swapping, liquidity provision, and staking are all
-            deployed and working right now on Arc Testnet, Ethereum Sepolia,
-            and Base Sepolia.
+            Bridging, swapping, best-price routing, permissionless pool
+            deployment, liquidity provision, and staking are all deployed and
+            working right now on Arc Testnet, Ethereum Sepolia, and Base
+            Sepolia.
           </p>
           <Link
             href="/"

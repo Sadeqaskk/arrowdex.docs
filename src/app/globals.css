@@ -31,6 +31,35 @@
   h4 {
     @apply font-serif tracking-tight text-bone;
   }
+
+
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+.btn-shine::after {
+  content: "";
+  position: absolute;
+  top: 0; left: -150%;
+  width: 60%; height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.35), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.6s ease;
+}
+.btn-shine:hover::after {
+  left: 150%;
+}
+
+
+  /* Hide the native cursor on precise pointers only — touch/trackpad-only
+     devices never get a custom cursor mounted, so they keep the OS default. */
+  @media (hover: hover) and (pointer: fine) {
+    html.has-custom-cursor,
+    html.has-custom-cursor a,
+    html.has-custom-cursor button {
+      cursor: none;
+    }
+  }
 }
 
 @layer utilities {
@@ -46,5 +75,39 @@
 
   .text-balance {
     text-wrap: balance;
+  }
+
+  /* Film grain — the single texture layer that reads as "expensive" rather
+     than flat-vector on a dark editorial background. Cheap SVG noise,
+     animated in discrete steps so it reads as grain, not a smear. */
+  .grain-overlay {
+    position: fixed;
+    inset: -200px;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.045;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 160px 160px;
+  }
+
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 32s linear infinite;
+  }
+  .marquee-track:hover {
+    animation-play-state: paused;
+  }
+
+  /* Subtle 3D tilt-on-hover for bento/feature cards — pairs with the
+     existing Magnetic component's translate for a fuller sense of depth. */
+  .tilt-card {
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transform-style: preserve-3d;
+  }
+
+  .glow-ring {
+    box-shadow: 0 0 0 1px rgba(155, 140, 255, 0.14), 0 30px 80px -20px rgba(155, 140, 255, 0.25);
   }
 }

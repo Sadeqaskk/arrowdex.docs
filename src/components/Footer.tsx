@@ -39,7 +39,6 @@ export default function Footer() {
             <FooterCol
               title="Networks"
               links={[
-                { href: "https://x.com/ArrowDEX0", label: "Official Arrow DEX X" },
                 { href: "https://testnet.arcscan.app/", label: "Arc Explorer" },
                 { href: "https://sepolia.etherscan.io", label: "Sepolia Explorer" },
                 { href: "https://base-sepolia.etherscan.io", label: "Base Sepolia Explorer" },
@@ -56,7 +55,7 @@ export default function Footer() {
             <FooterCol
               title="Community"
               links={[
-                { href: "https://x.com/0xsadik0", label: "Follow on X" },
+                { href: "https://x.com/ArrowDEX1", label: "Follow Arrow DEX on X" },
               ]}
             />
           </div>
@@ -65,14 +64,6 @@ export default function Footer() {
         <div className="mt-12 flex flex-wrap justify-between gap-3 border-t border-hairline pt-6 font-mono text-xs text-bone-faint">
           <span>© 2026 Arrow DEX — Testnet Software, Unaudited</span>
           <span>Every figure on this site reflects live contract state</span>
-           <a         
-            href="https://x.com/0xsadik0"
-            target="_blank"
-            rel="noreferrer"
-            className="transition-colors hover:text-brass"
-          >
-            Built by @0xsadik0
-          </a>
         </div>
       </div>
     </footer>
