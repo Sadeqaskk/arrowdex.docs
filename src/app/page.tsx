@@ -7,7 +7,7 @@ import Reveal from "@/components/Reveal";
 import Magnetic from "@/components/Magnetic";
 import StatsMarquee from "@/components/StatsMarquee";
 import VideoShowcase from "@/components/VideoShowcase";
-import FloatPanel from "@/components/FloatPanel";
+
 
 const NETWORKS = [
   { name: "Arc Testnet", chainId: "5042002", domain: "26", explorer: "https://testnet.arcscan.app/" },
