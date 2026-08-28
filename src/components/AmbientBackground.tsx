@@ -161,6 +161,8 @@ function Scene() {
         <ChromaticAberration
           blendFunction={BlendFunction.NORMAL}
           offset={new THREE.Vector2(0.0015, 0.0015)}
+          radialModulation={false}
+          modulationOffset={0}
         />
         <Noise opacity={0.025} />
         <Vignette eskil={false} offset={0.25} darkness={0.9} />
