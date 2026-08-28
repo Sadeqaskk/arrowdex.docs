@@ -7,7 +7,6 @@ import Reveal from "@/components/Reveal";
 import Magnetic from "@/components/Magnetic";
 import StatsMarquee from "@/components/StatsMarquee";
 import VideoShowcase from "@/components/VideoShowcase";
-import SpotlightCard from "@/components/SpotlightCard";
 import FloatPanel from "@/components/FloatPanel";
 
 const NETWORKS = [
