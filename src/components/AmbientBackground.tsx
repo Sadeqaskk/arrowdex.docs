@@ -12,7 +12,7 @@ import {
 } from "@react-three/postprocessing";
 import { BlendFunction } from "postprocessing";
 import * as THREE from "three";
-import SpotlightCard from "@/components/SpotlightCard";
+
 
 const PALETTE = ["#9B8CFF", "#7C9CFF", "#B057E8", "#4D6FD9"];
 
