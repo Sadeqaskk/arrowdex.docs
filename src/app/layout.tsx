@@ -28,6 +28,13 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "ArrowDEX Docs",
   description: "...",
+  icons: {
+    icon: [
+      { url: "/Arrow.png", type: "image/png" },
+    ],
+    shortcut: "/Arrow.png",
+    apple: "/Arrow.png",
+  },
 };
 
 export default function RootLayout({

@@ -46,6 +46,11 @@ const USE_CASES = [
     description:
       "Swap USDC for EURC at a transparent, on-chain price with no off-chain oracle in the loop.",
   },
+  {
+    title: "Conversational execution",
+    description:
+      "Tell the Arrow Agent what you want in plain language and it swaps, bridges, adds liquidity, or stakes for you — no manual forms.",
+  },
 ];
 
 const TICKER_ITEMS = [
@@ -57,6 +62,7 @@ const TICKER_ITEMS = [
   "ARROWPOOL.SOL · DEPLOYED",
   "ARROWVAULT.SOL · DEPLOYED",
   "ARROWSWAP.SOL · DEPLOYED",
+  "ARROW AGENT · LIVE",
   "CCTP BURN-AND-MINT · NO WRAPPED TOKENS",
   "0.30% SWAP FEE · ON-CHAIN PRICING",
 ];
@@ -65,6 +71,62 @@ const CORE_CONTRACTS = [
   { name: "ArrowRouter", address: "0x94D72FdDC5A6bF52968797699dAce54812934765" },
   { name: "ArrowFactory", address: "0x04722Bc000D0257C8e7b364975b4d89c0f36a86d" },
   { name: "ArrowPoolImplementation", address: "0x08C44A7547C3F8E6b23847C65965b437EE0D52d0" },
+];
+
+// Each feature card is now a real link. Internal cards route to the matching
+// docs/console page; Arrow Agent opens the live app in a new tab since the
+// agent itself lives on arrowdex.vercel.app, not on the docs site.
+const FEATURES = [
+  {
+    size: "large",
+    title: "ArrowRouter",
+    description:
+      "The routing layer for the entire ecosystem. Graph-based multi-hop pathfinding finds the best price across every registered pool, with fee-on-transfer-safe execution and batch swaps built in.",
+    contract: "ArrowRouter.sol",
+    icon: <RouterIcon />,
+    href: "/docs/router",
+  },
+  {
+    title: "ArrowFactory",
+    description:
+      "Deploys new pools as gas-efficient minimal-proxy clones and auto-registers each one with ArrowRouter in the same transaction. No manual wiring, ever.",
+    contract: "ArrowFactory.sol",
+    icon: <FactoryIcon />,
+    href: "/factory",
+  },
+  {
+    title: "Liquidity Pool",
+    description:
+      "A constant-product AMM pool holding real WUSDC/ARROW reserves. Every LP token is a redeemable claim on real assets.",
+    contract: "ArrowPool.sol",
+    icon: <PoolIcon />,
+    href: "/docs/pools",
+  },
+  {
+    title: "Staking Vault",
+    description:
+      "Stake ARROW-LP and earn ARROW rewards, streamed continuously every block. No lock period, no synthetic yield.",
+    contract: "ArrowVault.sol",
+    icon: <VaultIcon />,
+    href: "/docs/vaults",
+  },
+  {
+    title: "Swap Engine",
+    description:
+      "USDC ⇄ EURC priced against live liquidity by an on-chain constant-product formula, at a flat 0.30% fee.",
+    contract: "ArrowSwap.sol",
+    icon: <SwapIcon />,
+    href: "/docs/swap",
+  },
+  {
+    title: "Arrow Agent",
+    description:
+      "A Gemini-powered assistant that reads your wallet and executes real transactions from plain language — swap, bridge, add liquidity, or stake, all from one conversation.",
+    contract: "/agent",
+    icon: <AgentIcon />,
+    href: "https://arrowdex.vercel.app/agent",
+    external: true,
+  },
 ];
 
 export default function HomePage() {
@@ -108,7 +170,8 @@ export default function HomePage() {
             Arrow DEX is a working cross-chain exchange — a routing layer that
             finds the best price across every pool, pools holding real reserves,
             a factory that deploys new markets permissionlessly, a staking vault
-            streaming real rewards, and a bridge moving real USDC across three
+            streaming real rewards, an AI agent that executes any of it from a
+            single sentence, and a bridge moving real USDC across three
             networks on Circle&rsquo;s own CCTP infrastructure. If it&rsquo;s on
             this page, it&rsquo;s deployed.
           </p>
@@ -157,7 +220,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* WHAT WE'RE BUILDING — asymmetric bento */}
+      {/* WHAT WE'RE BUILDING — asymmetric bento, now fully clickable */}
       <section className="border-b border-hairline py-24">
         <div className="mx-auto max-w-container px-6 md:px-8">
           <Reveal className="mb-14 max-w-[680px]">
@@ -175,47 +238,24 @@ export default function HomePage() {
           </Reveal>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Reveal delay={0}>
-              <FeatureCard
-                size="large"
-                title="ArrowRouter"
-                description="The routing layer for the entire ecosystem. Graph-based multi-hop pathfinding finds the best price across every registered pool, with fee-on-transfer-safe execution and batch swaps built in."
-                contract="ArrowRouter.sol"
-                icon={<RouterIcon />}
-              />
-            </Reveal>
-            <Reveal delay={80}>
-              <FeatureCard
-                title="ArrowFactory"
-                description="Deploys new pools as gas-efficient minimal-proxy clones and auto-registers each one with ArrowRouter in the same transaction. No manual wiring, ever."
-                contract="ArrowFactory.sol"
-                icon={<FactoryIcon />}
-              />
-            </Reveal>
-            <Reveal delay={160}>
-              <FeatureCard
-                title="Liquidity Pool"
-                description="A constant-product AMM pool holding real WUSDC/ARROW reserves. Every LP token is a redeemable claim on real assets."
-                contract="ArrowPool.sol"
-                icon={<PoolIcon />}
-              />
-            </Reveal>
-            <Reveal delay={240}>
-              <FeatureCard
-                title="Staking Vault"
-                description="Stake ARROW-LP and earn ARROW rewards, streamed continuously every block. No lock period, no synthetic yield."
-                contract="ArrowVault.sol"
-                icon={<VaultIcon />}
-              />
-            </Reveal>
-            <Reveal delay={320}>
-              <FeatureCard
-                title="Swap Engine"
-                description="USDC ⇄ EURC priced against live liquidity by an on-chain constant-product formula, at a flat 0.30% fee."
-                contract="ArrowSwap.sol"
-                icon={<SwapIcon />}
-              />
-            </Reveal>
+            {FEATURES.map((f, i) => (
+              <Reveal key={f.title} delay={i * 80}>
+                <Link
+                  href={f.href}
+                  target={f.external ? "_blank" : undefined}
+                  rel={f.external ? "noopener noreferrer" : undefined}
+                  className="group block h-full rounded-[20px] transition-transform duration-300 hover:-translate-y-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-brass-dim"
+                >
+                  <FeatureCard
+                    size={f.size}
+                    title={f.title}
+                    description={f.description}
+                    contract={f.contract}
+                    icon={f.icon}
+                  />
+                </Link>
+              </Reveal>
+            ))}
           </div>
 
           <Reveal delay={220}>
@@ -251,20 +291,20 @@ export default function HomePage() {
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             {CORE_CONTRACTS.map((c, i) => (
               <Reveal key={c.name} delay={i * 80}>
-                <div className="group tilt-card flex flex-col gap-3.5 rounded-[20px] border border-hairline bg-ink-raised p-7 transition-all duration-300 hover:-translate-y-1 hover:border-brass-dim hover:shadow-[0_20px_60px_-15px_rgba(155,140,255,0.30)]">
+                <a
+                  href={`https://testnet.arcscan.app/address/${c.address}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group tilt-card flex flex-col gap-3.5 rounded-[20px] border border-hairline bg-ink-raised p-7 transition-all duration-300 hover:-translate-y-1 hover:border-brass-dim hover:shadow-[0_20px_60px_-15px_rgba(155,140,255,0.30)]"
+                >
                   <span className="font-serif text-[20px]">{c.name}</span>
                   <div className="break-all font-mono text-[12px] leading-[1.8] text-bone-faint">
                     {c.address}
                   </div>
-                  <a
-                    href={`https://testnet.arcscan.app/address/${c.address}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-auto flex items-center gap-1.5 border-t border-hairline pt-3.5 font-mono text-xs text-brass-dim transition-colors group-hover:text-brass"
-                  >
+                  <span className="mt-auto flex items-center gap-1.5 border-t border-hairline pt-3.5 font-mono text-xs text-brass-dim transition-colors group-hover:text-brass">
                     View on Explorer →
-                  </a>
-                </div>
+                  </span>
+                </a>
               </Reveal>
             ))}
           </div>
@@ -308,22 +348,22 @@ export default function HomePage() {
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             {NETWORKS.map((net, i) => (
               <Reveal key={net.name} delay={i * 80}>
-                <div className="group tilt-card flex flex-col gap-3.5 rounded-[20px] border border-hairline bg-ink-raised p-7 transition-all duration-300 hover:-translate-y-1 hover:border-brass-dim hover:shadow-[0_20px_60px_-15px_rgba(77,138,255,0.30)]">
+                <a
+                  href={net.explorer}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group tilt-card flex flex-col gap-3.5 rounded-[20px] border border-hairline bg-ink-raised p-7 transition-all duration-300 hover:-translate-y-1 hover:border-brass-dim hover:shadow-[0_20px_60px_-15px_rgba(77,138,255,0.30)]"
+                >
                   <span className="font-serif text-[20px]">{net.name}</span>
                   <div className="font-mono text-[12.5px] leading-[1.8] text-bone-faint">
                     Chain ID <b className="font-medium text-verdant-bright">{net.chainId}</b>
                     <br />
                     CCTP Domain <b className="font-medium text-verdant-bright">{net.domain}</b>
                   </div>
-                  <a
-                    href={net.explorer}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-auto flex items-center gap-1.5 border-t border-hairline pt-3.5 font-mono text-xs text-brass-dim transition-colors group-hover:text-brass"
-                  >
+                  <span className="mt-auto flex items-center gap-1.5 border-t border-hairline pt-3.5 font-mono text-xs text-brass-dim transition-colors group-hover:text-brass">
                     View Explorer →
-                  </a>
-                </div>
+                  </span>
+                </a>
               </Reveal>
             ))}
           </div>
@@ -349,6 +389,57 @@ export default function HomePage() {
               </Reveal>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ARROW AGENT — dedicated CTA for the AI agent */}
+      <section className="border-b border-hairline py-24">
+        <div className="mx-auto max-w-container px-6 md:px-8">
+          <Reveal>
+            <div className="relative overflow-hidden rounded-[28px] border border-hairline bg-ink-raised px-10 py-16 text-center md:px-20">
+              <div
+                className="pointer-events-none absolute inset-0 opacity-50 animate-meshShift"
+                style={{
+                  background:
+                    "radial-gradient(ellipse 500px 300px at 25% 15%, rgba(108,99,255,0.16), transparent 60%), radial-gradient(ellipse 400px 300px at 75% 85%, rgba(139,127,255,0.14), transparent 60%)",
+                }}
+              />
+              <div className="relative">
+                <Stamp variant="live" className="mx-auto">
+                  Arrow Agent · Live
+                </Stamp>
+                <h2 className="mx-auto mt-6 max-w-[620px] text-[32px] md:text-[40px]">
+                  Talk to the chain. It talks back with a transaction.
+                </h2>
+                <p className="mx-auto mt-4 max-w-[520px] text-[15.5px] text-bone-dim">
+                  Arrow Agent is a Gemini-powered assistant that reads your
+                  connected wallet and executes real on-chain actions from
+                  plain language — swaps, liquidity, vault staking, and CCTP
+                  bridges, all from one conversation. No forms, no menus.
+                </p>
+                <div className="mt-9 flex flex-wrap justify-center gap-4">
+                  <Magnetic>
+                    <Link
+                      href="https://arrowdex.vercel.app/agent"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center rounded-[3px] border border-brass bg-brass px-7 py-3.5 font-mono text-[13px] tracking-wide text-ink transition-colors hover:bg-transparent hover:text-brass"
+                    >
+                      Open Arrow Agent →
+                    </Link>
+                  </Magnetic>
+                  <Magnetic strength={10}>
+                    <Link
+                      href="/docs/agent"
+                      className="inline-flex items-center rounded-[3px] border border-hairline-strong px-7 py-3.5 font-mono text-[13px] tracking-wide text-bone-dim transition-colors hover:border-brass-dim hover:text-bone"
+                    >
+                      Read Agent Docs
+                    </Link>
+                  </Magnetic>
+                </div>
+              </div>
+            </div>
+          </Reveal>
         </div>
       </section>
 
@@ -417,11 +508,12 @@ export default function HomePage() {
                   Live · Deployed
                 </Stamp>
                 <h2 className="mx-auto mt-6 max-w-[560px] text-[32px] md:text-[40px]">
-                  Five steps. All real.
+                  Six ways in. All real.
                 </h2>
                 <p className="mx-auto mt-4 max-w-[480px] text-[15.5px] text-bone-dim">
-                  Connect a wallet, get free testnet funds, and bridge, swap, or
-                  stake — every action settles on an actual deployed contract.
+                  Connect a wallet, get free testnet funds, and bridge, swap,
+                  stake, or just ask the agent — every action settles on an
+                  actual deployed contract.
                 </p>
                 <div className="mt-9 flex flex-wrap justify-center gap-4">
                   <Magnetic>
@@ -490,6 +582,15 @@ function FactoryIcon() {
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
       <path d="M4 20V10l4 3V10l4 3V10l4 3V6l4 3v11H4Z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
       <path d="M4 20h16" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+    </svg>
+  );
+}
+function AgentIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+      <circle cx="12" cy="7" r="3.2" stroke="currentColor" strokeWidth="1.4" />
+      <path d="M5.5 20c0-3.6 2.9-6.5 6.5-6.5s6.5 2.9 6.5 6.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+      <path d="M9.3 6.2c.5-.9 1.6-1.4 2.7-1.4s2.2.5 2.7 1.4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
     </svg>
   );
 }
