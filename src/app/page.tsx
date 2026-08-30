@@ -73,10 +73,20 @@ const CORE_CONTRACTS = [
   { name: "ArrowPoolImplementation", address: "0x08C44A7547C3F8E6b23847C65965b437EE0D52d0" },
 ];
 
+type Feature = {
+  title: string;
+  description: string;
+  contract: string;
+  icon: React.ReactNode;
+  href: string;
+  size?: "normal" | "large";
+  external?: boolean;
+};
+
 // Each feature card is now a real link. Internal cards route to the matching
 // docs/console page; Arrow Agent opens the live app in a new tab since the
 // agent itself lives on arrowdex.vercel.app, not on the docs site.
-const FEATURES = [
+const FEATURES: Feature[] = [
   {
     size: "large",
     title: "ArrowRouter",
