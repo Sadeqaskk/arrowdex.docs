@@ -335,7 +335,7 @@ export default function HomePage() {
             </p>
           </Reveal>
           <Reveal delay={100}>
-            <VideoShowcase />
+            <VideoShowcase src="https://youtu.be/CXEi-8GLfrg?si=Bnk1VcppeV75kKsH" />
           </Reveal>
         </div>
       </section>

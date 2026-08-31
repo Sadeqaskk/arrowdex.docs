@@ -3,13 +3,28 @@
 import { useRef, useState } from "react";
 
 type VideoShowcaseProps = {
-  /** Path to the actual demo clip once you have one, e.g. "/videos/demo.mp4" */
+  /** Path to a local demo clip (e.g. "/videos/demo.mp4") OR a YouTube URL/ID */
   src?: string;
   /** Static preview frame shown before playback starts */
   poster?: string;
   title?: string;
   description?: string;
 };
+
+/** Pulls a YouTube video ID out of any common URL shape, or returns null if src isn't YouTube. */
+function getYouTubeId(src: string): string | null {
+  const patterns = [
+    /youtu\.be\/([a-zA-Z0-9_-]{11})/,
+    /youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})/,
+    /youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/,
+    /youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/,
+  ];
+  for (const re of patterns) {
+    const match = src.match(re);
+    if (match) return match[1];
+  }
+  return null;
+}
 
 export default function VideoShowcase({
   src = "/videos/demo.mp4",
@@ -23,9 +38,13 @@ export default function VideoShowcase({
   const [progress, setProgress] = useState(0);
   const [hasSrc, setHasSrc] = useState(true);
 
+  const youTubeId = getYouTubeId(src);
+
   function handlePlay() {
     setPlaying(true);
-    requestAnimationFrame(() => videoRef.current?.play().catch(() => setHasSrc(false)));
+    if (!youTubeId) {
+      requestAnimationFrame(() => videoRef.current?.play().catch(() => setHasSrc(false)));
+    }
   }
 
   function handleTimeUpdate() {
@@ -50,10 +69,17 @@ export default function VideoShowcase({
           className="relative flex h-full w-full items-center justify-center overflow-hidden"
           aria-label={`Play: ${title}`}
         >
-          {/* Poster — falls back to the mesh-gradient atmosphere if no image exists yet */}
+          {/* Poster — falls back to the mesh-gradient atmosphere if no image exists yet,
+              or to the YouTube thumbnail if we have a video ID and no explicit poster */}
           <div
             className="absolute inset-0 bg-atmosphere bg-cover bg-center"
-            style={poster ? { backgroundImage: `url(${poster})` } : undefined}
+            style={
+              poster
+                ? { backgroundImage: `url(${poster})` }
+                : youTubeId
+                ? { backgroundImage: `url(https://img.youtube.com/vi/${youTubeId}/maxresdefault.jpg)` }
+                : undefined
+            }
           />
           <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent" />
 
@@ -69,6 +95,14 @@ export default function VideoShowcase({
             <p className="mt-1.5 max-w-[440px] text-[13.5px] text-bone-dim">{description}</p>
           </div>
         </button>
+      ) : youTubeId ? (
+        <iframe
+          className="h-full w-full"
+          src={`https://www.youtube.com/embed/${youTubeId}?autoplay=1&rel=0`}
+          title={title}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
       ) : hasSrc ? (
         <div className="relative h-full w-full">
           <video
